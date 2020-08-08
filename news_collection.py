@@ -176,8 +176,7 @@ def save2ESEach(news_dict):
 							'script': 'ctx._source.symbol+=new_symbol',
 							'params': {
 								'new_symbol': news_dict['SYMBOL']
-							},
-							'doc_as_upsert': True
+							}
 						}
 					)
 			else:
