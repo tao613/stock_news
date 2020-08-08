@@ -173,7 +173,7 @@ def save2ESEach(news_dict):
 					doc_type=doc_type,
 					id=news_dict['URL'],
 					body={
-							'script': 'ctx._source.symbol+=new_symbol',
+							'script': 'ctx._source.symbol.add(params.new_symbol)',
 							'params': {
 								'new_symbol': news_dict['SYMBOL']
 							}
