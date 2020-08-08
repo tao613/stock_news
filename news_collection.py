@@ -118,7 +118,7 @@ def extractNewsFV(url):
 			'KEYWORD': ''
 		}
 		print(news_dict)
-		time.sleep(3)
+		time.sleep(5)
 		# to dataframe
 		# news_df = news_df.append(news_dict, ignore_index=True)
 		# to ES
@@ -225,7 +225,7 @@ def save2ES(news_df):
 
 if __name__=='__main__':
 	url_base = 'https://finviz.com/quote.ashx?t='
-	url_list = ['AAPL',
+	url_list = [
 				'GOOGL',
 				'AMZN'
 	]
