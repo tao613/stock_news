@@ -146,7 +146,7 @@ def save2ESEach(news_dict):
 	global es_news
 
 	# ES uses parameters
-	index_name = 'snews_test_1'
+	index_name = 'snews_test_2'
 	doc_type = 'news'
 	try:
 		# if index exists
