@@ -166,26 +166,31 @@ def save2ESEach(news_dict):
 			# 	keyword: x
 			# }
 			result = es_news.get(index=index_name, doc_type=doc_type, id=news_dict['URL'], ignore=[404, 400])
+			# result: {'_index': 'snews_test_2', '_type': 'news', '_id': 'https://www.investors.com/news/technology/google-stock-boost-cloud-computing-growth-could-be-bigger/?src=A00220', '_version': 1, '_seq_no': 109, '_primary_term': 1, 'found': True, '_source': {'url': 'https://www.investors.com/news/technology/google-stock-boost-cloud-computing-growth-could-be-bigger/?src=A00220', 'time': 1596760200.0, 'time_text': 'Aug-07-20 08:30AM', 'title': 'Why This FANG Stock Could Find Room To Run On The Cloud', 'source': "Investor's Business Daily", 'symbol': ['GOOGL'], 'content': '', 'keyword': ''}}
 			# if id exists
 			if result['found']:
 				es_news.update(
 					index=index_name,
 					doc_type=doc_type,
 					id=news_dict['URL'],
-					# body={
-					# 	'doc': {
-					# 		'symbol': [news_dict['SYMBOL'],],
-					# 		'doc_as_upsert': True
-					# 	}
-					# }
 					body={
-							'script': {
-								'inline': 'ctx._source.symbol+=params.new_symbol',
-								'params': {
-											'new_symbol': news_dict['SYMBOL']
-								}
-							}
+						'doc': {
+							'symbol': list(
+										set(
+											result['_source']['symbol'].append(news_dict['SYMBOL'])
+											)
+										),
+							'doc_as_upsert': True
 						}
+					}
+					# body={
+					# 		'script': {
+					# 			'inline': 'ctx._source.symbol+=params.new_symbol',
+					# 			'params': {
+					# 						'new_symbol': news_dict['SYMBOL']
+					# 			}
+					# 		}
+					# 	}
 					)
 			else:
 			# if id does not exist
