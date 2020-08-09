@@ -158,10 +158,10 @@ def save2ESEach(news_dict):
 			# 	timestr: x,
 			# 	title: x,
 			# 	source: x,
-			# 	symbol: {
+			# 	symbol: [
 			# 		x,
 			# 		y
-			# 	},
+			# 	],
 			# 	content: x,
 			# 	keyword: x
 			# }
@@ -172,20 +172,20 @@ def save2ESEach(news_dict):
 					index=index_name,
 					doc_type=doc_type,
 					id=news_dict['URL'],
-					body={
-						'doc': {
-							'symbol': [news_dict['SYMBOL'],],
-							'doc_as_upsert': True
-						}
-					}
 					# body={
-					# 		'script': {
-					# 			'inline': 'ctx._source.symbol.add(params.new_symbol)',
-					# 			'params': {
-					# 						'new_symbol': news_dict['SYMBOL']
-					# 			}
-					# 		}
+					# 	'doc': {
+					# 		'symbol': [news_dict['SYMBOL'],],
+					# 		'doc_as_upsert': True
 					# 	}
+					# }
+					body={
+							'script': {
+								'inline': 'ctx._source.symbol+=params.new_symbol',
+								'params': {
+											'new_symbol': news_dict['SYMBOL']
+								}
+							}
+						}
 					)
 			else:
 			# if id does not exist
@@ -199,7 +199,7 @@ def save2ESEach(news_dict):
 								'time_text': news_dict['TIME_TEXT'],
 								'title': news_dict['TITLE'],
 								'source': news_dict['SOURCE'],
-								'symbol': news_dict['SYMBOL'],
+								'symbol': [news_dict['SYMBOL'],],
 								'content': '',
 								'keyword': ''
 						}
@@ -217,7 +217,7 @@ def save2ESEach(news_dict):
 							'time_text': news_dict['TIME_TEXT'],
 							'title': news_dict['TITLE'],
 							'source': news_dict['SOURCE'],
-							'symbol': news_dict['SYMBOL'],
+							'symbol': [news_dict['SYMBOL'],],
 							'content': '',
 							'keyword': ''
 					}
