@@ -170,6 +170,8 @@ def save2ESEach(news_dict):
 			# if id exists
 			if result['found']:
 				if news_dict['SYMBOL'] in result['_source']['symbol']:
+					# return NoneType
+					result['_source']['symbol'].append(news_dict['SYMBOL'])
 					es_news.update(
 						index=index_name,
 						doc_type=doc_type,
@@ -177,9 +179,7 @@ def save2ESEach(news_dict):
 						body={
 							'doc': {
 								'symbol': list(
-											set(
-												result['_source']['symbol'].append(news_dict['SYMBOL'])
-												)
+											set(result['_source']['symbol'])
 											),
 								'doc_as_upsert': True
 							}
