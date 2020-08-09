@@ -245,7 +245,7 @@ def save2ES(news_df):
 if __name__=='__main__':
 	url_base = 'https://finviz.com/quote.ashx?t='
 	url_list = [
-				'AAPL',
+				# 'AAPL',
 				'GOOGL',
 				'AMZN'
 	]
