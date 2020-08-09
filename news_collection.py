@@ -181,8 +181,8 @@ def save2ESEach(news_dict):
 							'doc': {
 								'symbol': list(
 											set(result['_source']['symbol'])
-											)
-								#'doc_as_upsert': True
+											),
+								'doc_as_upsert': True
 							}
 						}
 						# body={
