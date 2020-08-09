@@ -194,7 +194,7 @@ def save2ESEach(news_dict):
 						# 	}
 						)
 					print('Symbol Changed. ', 
-							es_news.get(index=index_name, doc_type=doc_type, id=news_dict['URL'], ignore=[404, 400]).['_source']
+							es_news.get(index=index_name, doc_type=doc_type, id=news_dict['URL'], ignore=[404, 400])
 						)
 				else:
 					print('Symbol no change.')
