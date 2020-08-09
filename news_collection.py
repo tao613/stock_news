@@ -173,13 +173,19 @@ def save2ESEach(news_dict):
 					doc_type=doc_type,
 					id=news_dict['URL'],
 					body={
-							'script': {
-								'inline': 'ctx._source.symbol.add(params.new_symbol)',
-								'params': {
-											'new_symbol': news_dict['SYMBOL']
-								}
-							}
+						'doc': {
+							'symbol': [news_dict['SYMBOL'],],
+							'doc_as_upsert': True
 						}
+					}
+					# body={
+					# 		'script': {
+					# 			'inline': 'ctx._source.symbol.add(params.new_symbol)',
+					# 			'params': {
+					# 						'new_symbol': news_dict['SYMBOL']
+					# 			}
+					# 		}
+					# 	}
 					)
 			else:
 			# if id does not exist
