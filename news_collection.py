@@ -193,6 +193,8 @@ def save2ESEach(news_dict):
 						# 		}
 						# 	}
 						)
+				else:
+					print('Symbol no change.')
 			else:
 			# if id does not exist
 				es_news.index(
