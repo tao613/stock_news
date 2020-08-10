@@ -285,4 +285,4 @@ if __name__=='__main__':
 	# 			'AMZN'
 	# ]
 	for i in url_list:
-		extractNewsFV(url_base + i.strip())
+		extractNewsFV(url_base + i)
