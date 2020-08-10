@@ -16,6 +16,8 @@ import requests
 import pandas as pd
 import datetime
 import time
+import os
+import random
 
 from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
@@ -39,6 +41,7 @@ def extractNewsFV(url):
 		response = requests.get(url, headers=headers)
 		print('Url: ', url)
 		print('*'*30 + '访问页面成功!' + '*'*30)
+		time.sleep(random.randint(3, 6))
 	except Exception as e:
 		print('!'*30 + '访问错误，错误代码: ', response.status_code)
 		print('!'*30 + '报错: ', e)
@@ -118,7 +121,7 @@ def extractNewsFV(url):
 			'KEYWORD': ''
 		}
 		print(news_dict)
-		time.sleep(5)
+
 		# to dataframe
 		# news_df = news_df.append(news_dict, ignore_index=True)
 		# to ES
@@ -242,13 +245,44 @@ def save2ESEach(news_dict):
 def save2ES(news_df):
 	pass
 
+# csv files in the same directory
+def symbolFromCSV():
+	file_names = os.listdir()
+	# filenames -> list
+	csv_names = []
+	# all csv files name
+	for file in file_names:
+		if file.endswith('.csv'):
+			csv_names.append(file)
+			print('Add csv file: ', file)
+
+	# headers in csv:
+	# 'Symbol', 'Name', 'LastSale', 'MarketCap', 'IPOyear', 'Sector', 'industry', 'Summary Quote'
+	symbol_list = []
+	for file in csv_names:
+		print('Processing: ', file)
+		try:
+			csv = pd.read_csv(file)
+			# csv -> <class 'pandas.core.frame.DataFrame'>
+			# csv['Symbol'] -> <class 'pandas.core.series.Series'>
+			symbol_list.append(
+					list(csv['Symbol'])
+				)
+		except Exception as e:
+			print('Read CSV Error: ', e)
+
+	print('*'*30 + 'Total symbols: ', len(symbol_list))
+	return symbol_list
+
+
 
 if __name__=='__main__':
 	url_base = 'https://finviz.com/quote.ashx?t='
-	url_list = [
-				# 'AAPL',
-				'GOOGL',
-				'AMZN'
-	]
+	url_list = symbolFromCSV()
+	# url_list = [
+	# 			# 'AAPL',
+	# 			'GOOGL',
+	# 			'AMZN'
+	# ]
 	for i in url_list:
-		extractNewsFV(url_base + i)
+		extractNewsFV(url_base + i.strip())
