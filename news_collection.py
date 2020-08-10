@@ -54,78 +54,84 @@ def extractNewsFV(url):
 
 	soup = BeautifulSoup(response.text, 'lxml')
 	# news list
-	news_list = soup.find('table', id='news-table').find_all('tr')
+	try:
+		news_list = soup.find('table', id='news-table').find_all('tr')
+	except Exception as e:
+		print('！'*30 + 'Page has no news_list: ', url)
 
-	# URL, TITLE, SOURCE, TIME, SYMBOL
-	# item - list
-	# item[0] - <class 'bs4.element.Tag'>
-	for item in news_list:
-		# timestamp
-		try:
-			news_time_str = item.td.text.strip()
-			# Aug-07-20 08:59PM
-			# or 08:59PM
-			# set a recorder to record DATE
-			if len(news_time_str.split(' '))==2:
-				date_rec = news_time_str.split(' ')[0]
-				# datetime: %b-%d-%y %H:%M%p
-				news_time = datetime.datetime.strptime(news_time_str, '%b-%d-%y %H:%M%p')
-			else:
-				news_time_str = date_rec + ' ' + news_time_str
-				news_time = datetime.datetime.strptime(news_time_str, '%b-%d-%y %H:%M%p')
-			# datetime.datetime(2020, 7, 20, 8, 59)
-			news_timestamp = datetime.datetime.timestamp(news_time)
-			# 1596870180.0
-		except Exception as e:
-			print('Error in news_time: ', e)
-			news_timestamp = ''
-		# url
-		try:
-			news_url = item.find('div', class_='news-link-left').a.attrs['href']
-			# https://www.barrons.com/articles/walt-disney-and-the-end-of-moviegoing-51596848369?siteid=yhoof2
-		except Exception as e:
-			print('Error in news_url: ', e)
-			news_url = 'Noise Data'
-		# title
-		try:
-			news_title = item.find('div', class_='news-link-left').a.text.strip()
-			# Walt Disney and the End of Moviegoing
-		except Exception as e:
-			print('Error in news_title: ', e)
-			news_title = ''
-		# source
-		try:
-			news_source = item.find('div', class_='news-link-right').text.strip()
-			# Barrons.com
-		except Exception as e:
-			print('Error in news_source: ', e)
-			news_source = ''
-		# symbol
-		try:
-			news_symbol = soup.title.text.strip().split(' ')[0].upper()
-			# AAPL
-			# same as url
-		except Exception as e:
-			print('Error in news_symbol: ', e)
-			news_symbol = url.split('=')[1].upper()
-			# url: https://finviz.com/quote.ashx?t=AAPL
+	if len(news_list):
+		# URL, TITLE, SOURCE, TIME, SYMBOL
+		# item - list
+		# item[0] - <class 'bs4.element.Tag'>
+		for item in news_list:
+			# timestamp
+			try:
+				news_time_str = item.td.text.strip()
+				# Aug-07-20 08:59PM
+				# or 08:59PM
+				# set a recorder to record DATE
+				if len(news_time_str.split(' '))==2:
+					date_rec = news_time_str.split(' ')[0]
+					# datetime: %b-%d-%y %H:%M%p
+					news_time = datetime.datetime.strptime(news_time_str, '%b-%d-%y %H:%M%p')
+				else:
+					news_time_str = date_rec + ' ' + news_time_str
+					news_time = datetime.datetime.strptime(news_time_str, '%b-%d-%y %H:%M%p')
+				# datetime.datetime(2020, 7, 20, 8, 59)
+				news_timestamp = datetime.datetime.timestamp(news_time)
+				# 1596870180.0
+			except Exception as e:
+				print('Error in news_time: ', e)
+				news_timestamp = ''
+			# url
+			try:
+				news_url = item.find('div', class_='news-link-left').a.attrs['href']
+				# https://www.barrons.com/articles/walt-disney-and-the-end-of-moviegoing-51596848369?siteid=yhoof2
+			except Exception as e:
+				print('Error in news_url: ', e)
+				news_url = 'Noise Data'
+			# title
+			try:
+				news_title = item.find('div', class_='news-link-left').a.text.strip()
+				# Walt Disney and the End of Moviegoing
+			except Exception as e:
+				print('Error in news_title: ', e)
+				news_title = ''
+			# source
+			try:
+				news_source = item.find('div', class_='news-link-right').text.strip()
+				# Barrons.com
+			except Exception as e:
+				print('Error in news_source: ', e)
+				news_source = ''
+			# symbol
+			try:
+				news_symbol = soup.title.text.strip().split(' ')[0].upper()
+				# AAPL
+				# same as url
+			except Exception as e:
+				print('Error in news_symbol: ', e)
+				news_symbol = url.split('=')[1].upper()
+				# url: https://finviz.com/quote.ashx?t=AAPL
 
-		news_dict = {
-			'URL': news_url,
-			'TIME': news_timestamp,
-			'TIME_TEXT': news_time_str,
-			'TITLE': news_title,
-			'SOURCE': news_source,
-			'SYMBOL': news_symbol,
-			'CONTENT': '',
-			'KEYWORD': ''
-		}
-		print(news_dict)
+			news_dict = {
+				'URL': news_url,
+				'TIME': news_timestamp,
+				'TIME_TEXT': news_time_str,
+				'TITLE': news_title,
+				'SOURCE': news_source,
+				'SYMBOL': news_symbol,
+				'CONTENT': '',
+				'KEYWORD': ''
+			}
+			print(news_dict)
 
-		# to dataframe
-		# news_df = news_df.append(news_dict, ignore_index=True)
-		# to ES
-		save2ESEach(news_dict)
+			# to dataframe
+			# news_df = news_df.append(news_dict, ignore_index=True)
+			# to ES
+			save2ESEach(news_dict)
+	else:
+		print('!'*30 + 'Page has no news_list: ', url)
 
 	# end for item in news_list
 	# code
