@@ -265,7 +265,7 @@ def symbolFromCSV():
 			csv = pd.read_csv(file)
 			# csv -> <class 'pandas.core.frame.DataFrame'>
 			# csv['Symbol'] -> <class 'pandas.core.series.Series'>
-			symbol_list.append(
+			symbol_list += (
 					list(csv['Symbol'])
 				)
 		except Exception as e:
@@ -285,4 +285,4 @@ if __name__=='__main__':
 	# 			'AMZN'
 	# ]
 	for i in url_list:
-		extractNewsFV(url_base + i)
+		extractNewsFV(url_base + i.strip())
