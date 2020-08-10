@@ -57,6 +57,7 @@ def extractNewsFV(url):
 	try:
 		news_list = soup.find('table', id='news-table').find_all('tr')
 	except Exception as e:
+		news_list = []
 		print('！'*30 + 'Page has no news_list: ', url)
 
 	if len(news_list):
