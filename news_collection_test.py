@@ -187,10 +187,11 @@ def save2ESEach(news_dict):
 				id=news_dict['URL'],
 				body = {
 					"scripted_upsert": True,
-					"script": "ctx._source.symbol.contains(" + news_dict['SYMBOL'] + ") ? 0 : ctx._source.symbol.add(" + news_dict['SYMBOL'] + ")",
+					"script": "ctx._source.symbols.contains('fb') ? 0:ctx._source.symbols.add('fb')",
+					#"script": "ctx._source.symbol.contains(" + news_dict['SYMBOL'] + ") ? 0 : ctx._source.symbol.add(" + news_dict['SYMBOL'] + ")",
 					"upsert": {
-						"url": news_dict['URL'],
-						"time": news_dict['TIME'],
+						'url': news_dict['URL'],
+						'time': news_dict['TIME'],
 						'time_text': news_dict['TIME_TEXT'],
 						'title': news_dict['TITLE'],
 						'source': news_dict['SOURCE'],
