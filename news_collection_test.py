@@ -121,7 +121,7 @@ def extractNewsFV(url):
 				'TIME_TEXT': news_time_str,
 				'TITLE': news_title,
 				'SOURCE': news_source,
-				'SYMBOL': list([news_symbol,]),
+				'SYMBOL': news_symbol,
 				'CONTENT': '',
 				'KEYWORD': ''
 			}
