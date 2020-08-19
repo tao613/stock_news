@@ -186,7 +186,7 @@ def save2ESEach(news_dict):
 				doc_type=doc_type,
 				id=news_dict['URL'],
 				body = {
-					"script_upsert": True,
+					"scripted_upsert": True,
 					"script": "ctx._source.symbol.contains(" + news_dict['SYMBOL'] + ") ? 0 : ctx._source.symbol.add(" + news_dict['SYMBOL'] + ")",
 					"upsert": {
 						"url": news_dict['URL'],
