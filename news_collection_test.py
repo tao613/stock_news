@@ -181,8 +181,6 @@ def save2ESEach(news_dict):
 			# result: {'_index': 'snews_test_2', '_type': 'news', '_id': 'https://www.investors.com/news/technology/google-stock-boost-cloud-computing-growth-could-be-bigger/?src=A00220', '_version': 1, '_seq_no': 109, '_primary_term': 1, 'found': True, '_source': {'url': 'https://www.investors.com/news/technology/google-stock-boost-cloud-computing-growth-could-be-bigger/?src=A00220', 'time': 1596760200.0, 'time_text': 'Aug-07-20 08:30AM', 'title': 'Why This FANG Stock Could Find Room To Run On The Cloud', 'source': "Investor's Business Daily", 'symbol': ['GOOGL'], 'content': '', 'keyword': ''}}
 			# if id exists
 			# return NoneType
-			result['_source']['symbol'].append(news_dict['SYMBOL'])
-			print('New symbol: ', result['_source']['symbol'])
 			es_news.update(
 				index=index_name,
 				doc_type=doc_type,
