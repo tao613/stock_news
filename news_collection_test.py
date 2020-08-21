@@ -114,6 +114,9 @@ def extractNewsFV(url):
 				print('Error in news_symbol: ', e)
 				news_symbol = url.split('=')[1].upper()
 				# url: https://finviz.com/quote.ashx?t=AAPL
+			# news language
+			# by author
+			news_lang = 'English'
 
 			news_dict = {
 				'URL': news_url,
@@ -122,6 +125,7 @@ def extractNewsFV(url):
 				'TITLE': news_title,
 				'SOURCE': news_source,
 				'SYMBOL': news_symbol,
+				'NEWS_LANG': news_lang,
 				'CONTENT': '',
 				'KEYWORD': ''
 			}
@@ -196,6 +200,7 @@ def save2ESEach(news_dict):
 						'title': news_dict['TITLE'],
 						'source': news_dict['SOURCE'],
 						'symbol': [news_dict['SYMBOL'],],
+						'news_lang': news_dict['NEWS_LANG'],
 						'content': '',
 						'keyword': ''
 					}
@@ -226,6 +231,7 @@ def save2ESEach(news_dict):
 							'title': news_dict['TITLE'],
 							'source': news_dict['SOURCE'],
 							'symbol': [news_dict['SYMBOL'],],
+							'news_lang': news_dict['NEWS_LANG'],
 							'content': '',
 							'keyword': ''
 					}
